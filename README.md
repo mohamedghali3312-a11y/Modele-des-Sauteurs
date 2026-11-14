@@ -1,57 +1,43 @@
+# 🔢 Le Modèle des Sauteurs & La Machine v4.0 (Horizon $10^{300}$)
 
-# 🔢 Le Modèle des Sauteurs & Exploration Cryptographique (1024D)
-
-**De l'intuition arithmétique sur feuille de brouillon à l'implémentation d'algorithmes haute performance pour les grands nombres premiers et la cryptographie post-quantique.**
+**De l'intuition arithmétique sur feuille de brouillon à l'implémentation d'algorithmes haute performance pour les grands nombres premiers, l'analyse spectrale et la cryptographie.**
 
 ---
 
 ## 🎯 À propos du projet
 
-Ce dépôt rassemble mes recherches personnelles et mes expérimentations algorithmiques en **Python** autour de deux grands piliers des mathématiques appliquées et de la cybersécurité :
+Ce dépôt rassemble mes recherches personnelles et mes expérimentations algorithmiques en **Python** autour de la structure des nombres premiers :
 
-1. **Volet I — Le Modèle des Sauteurs & La Machine v4.0 (Nombres Premiers) :**
-   Modélisation cinématique du crible d'Ératosthène permettant d'explorer la distribution des nombres premiers en mémoire constante $O(1)$ jusqu'à l'échelle cryptographique ($10^{500}$), d'analyser leurs fréquences cachées (FFT) et de certifier des nombres de Mersenne.
-2. **Volet II — Cryptographie Post-Quantique & Optimisation sur Réseaux Euclidiens ($512 = 2^9$ et $1024 = 2^{10}$) :**
-   Implémentation d'une Transformée Théorique des Nombres (**NTT** modulo $3329$) et conception de stratégies géométriques pour accélérer la réduction de réseaux (**Tri croissant + Effet Domino**, **Effet Miroir bidirectionnel**, **Tournoi par blocs** et **Indexation par Bibliothèque Numérotée**).
-
----
-
-## 🚀 Résultats & Performances Mesurées
-
-### 1. Exploration des Grands Nombres Premiers (Machine v4.0)
-* **Filtrage géométrique par Roues Primorielles :** Élimination de **79,2 %** des composés avec la *Roue +2310* ($V_5$) et **80,82 %** avec la *Roue +30030* ($V_6$) avant tout test de primalité.
-* **Validation statistique à $10^{20}$ :** Extraction de **9 982 nombres premiers** (saut moyen mesuré : `46,28` contre `46,05` théorique, soit **99,5 % d'adéquation**) et vérification empirique du biais de répulsion modulaire (*Lemke Oliver–Soundararajan*).
-* **Haute altitude & Constellations :** Capture de **33 chaînes de Cunningham** (longueur 3) à $10^{50}$ en `7,82 s`, extraction d'un nombre premier certifié de **501 chiffres** ($10^{500}$) en `1,53 s`, et certification déterministe de nombres de Mersenne jusqu'à **6 533 chiffres** ($M_{21701}$) via le test de **Lucas-Lehmer**.
-
-### 2. Cryptographie Post-Quantique & Réduction de Réseaux ($1024 = 2^{10}$)
-* **Moteur NTT rapide ($p = 3329$) :** Multiplication polynomiale en **1024 dimensions** ($4 \times 256$) exécutée en **7,35 ms** sans erreur d'arrondi.
-* **Optimisation LLL Bidirectionnelle (Domino + Miroir) :** Réduction de **44,7 %** du temps de calcul en 30D par rapport à LLL classique.
-* **Indexation par Bibliothèque Numérotée & Triée (1024D) :** Regroupement spatial par composante dominante (`argmax`) et tri local permettant de traiter une matrice de **1 048 576 coefficients** en **18,4 ms** (72× plus rapide qu'un découpage par blocs fixes).
+1. **Fondements Cinématiques & Primorielle ($V_k$) :** Modélisation du crible sur une piste infinie où chaque sauteur bondit selon sa vitesse propre $v_k = p_k$, combinée à la correction additive/multiplicative et à la projection par produit scindé.
+2. **Campagnes Expérimentales ($10^{13}$ et $10^{14}$) :** Exploration à haute altitude via les roues $+210$ et $+2310$ (éliminant jusqu'à $79,2\%$ des composés), vérification de la conjecture de Legendre ($99,99\%$) et détection de constellations rares (jumeaux, triplets, quadruplets, chaînes de Cunningham).
+3. **Mutations de la Machine v4.0 (Horizon $10^{300}$) :**
+   * **Téléportation sans pilotes en mémoire $O(1)$ :** Couplage de la Roue $+2310$, du PGCD groupé et du radar probabiliste de Miller-Rabin.
+   * **Crible pondéré lisse (Maynard-Tao) :** Dépassement du problème de la parité.
+   * **Analyseur spectral FFT & Modulaire :** Étude fréquentielle des écarts et des biais modulo $6$ et modulo $30$.
 
 ---
 
 ## 📂 Contenu du Dépôt
 
-* `Modele_des_Sauteurs_Machine_v4_Edition_Integrale.pdf` : Dossier technique complet (Introduction, théorie, graphiques expérimentaux et codes sources).
-* `machine_v4_sauteurs.py` : Extraction haute altitude (Roue +30030, PGCD primoriel, Miller-Rabin) et analyse spectrale FFT.
-* `ntt_post_quantique_1024d.py` : Implémentation de la Transformée Théorique des Nombres rapide modulo $3329$.
-* `bibliotheque_numerotee_1024d.py` : Algorithme de réduction hiérarchique par indexation spatiale et effet domino/miroir.
+| Fichier | Description |
+| :--- | :--- |
+| **`Modele_des_Sauteurs_Machine_v4_Smartphone.pdf`** | Édition finale illustrée regroupant la théorie complète, les tableaux de résultats ($10^{13}$ / $10^{14}$) et le code commenté. |
+| **`machine_v4_10300.py`** | Script Python exécutable intégrant la Roue $+2310$, le filtrage par PGCD primoriel, le test de Miller-Rabin et les graphiques FFT / Mod 6 & 30. |
+| **`README.md`** | Documentation principale du projet. |
 
 ---
 
 ## 🛠️ Installation & Exécution
 
-Les scripts utilisent uniquement **Python 3** et les bibliothèques scientifiques standards :
+Le script nécessite **Python 3** ainsi que les bibliothèques `numpy` et `matplotlib` :
 
 ```bash
 pip install numpy matplotlib
-python bibliotheque_numerotee_1024d.py
+python machine_v4_10300.py
 ```
 
 ---
 
-## 💡 Démarche
+## 👤 Auteur
 
-
-
-Projet réalisé en **autodidacte** par passion pour l'algorithmique, la théorie des nombres et la cybersécurité. Chaque algorithme a été pensé visuellement avant d'être codé et mesuré expérimentalement.
+* **Mohamed Ghali** — [@mohamedghali3312-a11y](https://github.com)
