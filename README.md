@@ -1,4 +1,5 @@
-# Modele-des-Sauteurs# 🔢 Le Modèle des Sauteurs & Exploration Cryptographique (1024D)
+
+# 🔢 Le Modèle des Sauteurs & Exploration Cryptographique (1024D)
 
 **De l'intuition arithmétique sur feuille de brouillon à l'implémentation d'algorithmes haute performance pour les grands nombres premiers et la cryptographie post-quantique.**
 
