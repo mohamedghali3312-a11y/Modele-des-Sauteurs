@@ -1,43 +1,55 @@
-# 🔢 Le Modèle des Sauteurs & La Machine v4.0 (Horizon $10^{300}$)
+# The Jumper Model — La Machine (v7.0 to v13.0)
 
-**De l'intuition arithmétique sur feuille de brouillon à l'implémentation d'algorithmes haute performance pour les grands nombres premiers, l'analyse spectrale et la cryptographie.**
-
----
-
-## 🎯 À propos du projet
-
-Ce dépôt rassemble mes recherches personnelles et mes expérimentations algorithmiques en **Python** autour de la structure des nombres premiers :
-
-1. **Fondements Cinématiques & Primorielle ($V_k$) :** Modélisation du crible sur une piste infinie où chaque sauteur bondit selon sa vitesse propre $v_k = p_k$, combinée à la correction additive/multiplicative et à la projection par produit scindé.
-2. **Campagnes Expérimentales ($10^{13}$ et $10^{14}$) :** Exploration à haute altitude via les roues $+210$ et $+2310$ (éliminant jusqu'à $79,2\%$ des composés), vérification de la conjecture de Legendre ($99,99\%$) et détection de constellations rares (jumeaux, triplets, quadruplets, chaînes de Cunningham).
-3. **Mutations de la Machine v4.0 (Horizon $10^{300}$) :**
-   * **Téléportation sans pilotes en mémoire $O(1)$ :** Couplage de la Roue $+2310$, du PGCD groupé et du radar probabiliste de Miller-Rabin.
-   * **Crible pondéré lisse (Maynard-Tao) :** Dépassement du problème de la parité.
-   * **Analyseur spectral FFT & Modulaire :** Étude fréquentielle des écarts et des biais modulo $6$ et modulo $30$.
+**Author:** Mohamed Ghali | **Year:** 2026  
+**Fields:** Computational Number Theory, Post-Quantum Cryptography (ML-KEM), Fully Homomorphic Encryption (FHE)
 
 ---
 
-## 📂 Contenu du Dépôt
+## Project Overview
 
-| Fichier | Description |
-| :--- | :--- |
-| **`Modele_des_Sauteurs_Machine_v4_Smartphone.pdf`** | Édition finale illustrée regroupant la théorie complète, les tableaux de résultats ($10^{13}$ / $10^{14}$) et le code commenté. |
-| **`machine_v4_10300.py`** | Script Python exécutable intégrant la Roue $+2310$, le filtrage par PGCD primoriel, le test de Miller-Rabin et les graphiques FFT / Mod 6 & 30. |
-| **`README.md`** | Documentation principale du projet. |
+**"The Jumper Model — The Machine"** is a mathematical and software architecture designed to explore large prime numbers at extreme altitudes ($10^{300}$ to $10^{2000}$) and audit the resilience of modern cryptographic protocols on a standard personal computer.
+
+By combining the arithmetic of **primorial wheels** ($V_k = \prod p_i$), **mirror symmetry** ($r \leftrightarrow V_k - r$), and the **telescoping reduction** of primorial quotients ($p_k = V_k / V_{k-1}$), this framework replaces memory-intensive sieve tables with algebraic filtering in **constant $O(1)$ memory**.
 
 ---
 
-## 🛠️ Installation & Exécution
+## Key Contributions & Verified Results
 
-Le script nécessite **Python 3** ainsi que les bibliothèques `numpy` et `matplotlib` :
+1. **$O(1)$ Primorial Filtering and Deterministic Certification:**
+   * Leverages a single 15-digit integer ($V_{12} = 304,250,263,527,210$) to eliminate **85.49%** of composite numbers via a single GCD operation prior to running Baillie-PSW primality tests (reduced Fermat + strong Lucas).
+   * Generates deterministic primality proofs via the **Lucas-Pocklington theorem**, exported as timestamped, SHA-256 signed JSON certificates verifiable offline.
 
-```bash
-pip install numpy matplotlib
-python machine_v4_10300.py
+2. **Algebraic Approach to the Goldbach Conjecture and Cunningham Chains:**
+   * Formulates a balance equation around the shifted center $\frac{N-2}{2}$, enabling direct algebraic isolation of missing prime factors through exact integer division and GCD filtering.
+   * Demonstrates the **structural non-emptiness of mirror corridors** ($C_k(N) \ge 1$) and numerically verifies the Ramanujan resonance wave ($905$ certified prime pairs on the $V_5 = 30,030$ peak versus $244$ on the $2^{15}$ floor).
+   * Establishes a modular truncation law to construct uninterrupted **Cunningham chains** from high-altitude primorial quotients.
+
+3. **Unification with Post-Quantum Cryptography (ML-KEM) and FHE:**
+   * Generalizes the primorial generator equation to rank $n$ ($q_n = 2^n \frac{V_k}{V_{k-1}} + 1$), proving that the generator $p_5 = V_5 / V_4 = 13$ directly structures the prime modulus **$q = 3,329$** and the primitive NTT root **$\zeta = 17$** of the **ML-KEM** post-quantum standard.
+   * Conducts a quantitative security audit against lattice attacks ($10^9$ transactions), confirming the security margin of **ML-KEM-768** ($2^{198.2}$ operations, mean vector angle $87.91^\circ$) in alignment with ANSSI/NIST guidelines, coupled with an **FHE engine (v13.0)** featuring automated noise-clearing via *Bootstrapping*.
+
+---
+
+## Repository Structure
+
+```text
+├── README.md
+├── LICENSE
+├── requirements.txt
+├── src/
+│   └── la_machine_sauteurs_v13.py
+└── docs/
+    ├── Compte_Rendu_Complet_Modele_des_Sauteurs_2026.pdf
+    ├── Recueil_Calculs_Detailles_Modele_des_Sauteurs_2026.pdf
+    └── The_Jumper_Model_Complete_Report_2026_EN.pdf
 ```
 
----
+## Quick Start
 
-## 👤 Auteur
+```bash
+# Run directly with standard Python 3 (zero external dependencies required)
+python src/la_machine_sauteurs_v13.py
 
-* **Mohamed Ghali** — [@mohamedghali3312-a11y](https://github.com)
+# Optional: install gmpy2 for C/GMP hardware acceleration at 10^300+
+pip install -r requirements.txt
+```
