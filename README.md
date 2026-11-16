@@ -66,3 +66,6 @@ lean la_machine_v16_proofs.lean
 
 **Mohamed Ghali** — Novembre 2026  
 Licence : **CC BY 4.0** (Documentation) / **MIT** (Code source)
+**Publication officielle (Zenodo) :** https://zenodo.org/records/24283581
+
+**Author ORCID:** [0009-0006-3364-5341](https://orcid.org/0009-0006-3364-5341)
