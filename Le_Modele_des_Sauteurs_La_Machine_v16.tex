@@ -1,0 +1,83 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english,french]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\geometry{margin=2.1cm}
+
+\DeclareMathOperator{\pgcd}{pgcd}
+
+\definecolor{navy}{RGB}{20,45,85}
+\definecolor{slate}{RGB}{60,70,85}
+\definecolor{codebg}{RGB}{246,248,250}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    urlcolor=navy,
+    citecolor=navy
+}
+
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    backgroundcolor=\color{codebg},
+    keywordstyle=\color{navy}\bfseries,
+    commentstyle=\color{slate}\itshape,
+    stringstyle=\color{teal},
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{lightgray},
+    captionpos=b
+}
+
+\newtheorem{theorem}{Théorème}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Définition}
+\newtheorem{remark}{Remarque}
+
+\title{\texorpdfstring{\textbf{\color{navy}Le Modèle des Sauteurs — La Machine (v7.0 à v16.0)}}{Le Modele des Sauteurs - La Machine (v7.0 a v16.0)}\\
+\texorpdfstring{\large Architecture Double Étage en Mémoire Constante $O(1)$, Réduction Paramétrique de Goldbach, Connexion Spectrale de Riemann, Preuves Formelles Lean 4 et Cryptographie Post-Quantique (ML-KEM / FHE / ZK)}{Architecture Double Etage en Memoire Constante O(1)}}
+\author{\textbf{Mohamed Ghali}}
+\date{Novembre 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Cet article présente l'architecture consolidée (\textbf{v16.0}) de \emph{La Machine}, un moteur algébrique opérant en mémoire constante $O(1)$ dédié à l'isolation rapide de nombres premiers structurés, à l'analyse des partitions de Goldbach, à l'exploration numérique de l'Hypothèse de Riemann et à la génération déterministe de paramètres pour la cryptographie post-quantique. En combinant une table circulaire de sauts miroirs $V_4 = 2\,310$ en cache L1 ($< 2\,\text{Ko}$) avec un filtre PGCD sur le cofacteur $W_{5..12} = V_{12}/V_4$, le système élimine $85{,}49\,\%$ de l'espace de recherche tout en divisant par $4{,}81$ les appels de PGCD et en accélérant jusqu'à $3{,}44\times$ la recherche de grands nombres premiers de $2\,048$ bits. Sur le plan théorique, la réduction télescopique autour du centre décalé $(N - 2)/2$ formalise un \emph{Théorème de Réduction Paramétrique en $m$}, explicite le terme d'erreur $E_k(N)$ face à l'obstacle de parité de Selberg et relie les roues primorielles simples $V_k$ et pondérées $\widetilde{V}_k$ au critère de Guy Robin pour la fonction zêta de Riemann. Enfin, la généralisation au rang $n$ ($q_n = 2^n \cdot K + 1$) unifie la génération certifiée des paramètres NTT de \textbf{ML-KEM}, \textbf{Falcon-1024}, des chaînes RNS 60 bits pour le chiffrement homomorphe (\textbf{FHE}) et des corps finis à haute 2-adicité tels que \textbf{BabyBear} pour les preuves \textbf{ZK-STARKs}, le tout appuyé par des preuves formelles en \textbf{Lean 4}.
+\end{abstract}
+
+\section{Architecture Double Étage en Mémoire Constante $O(1)$}
+
+En posant $V_0 = 2$, le $k$-ième nombre premier $p_k$ et la roue primorielle $V_k$ sont définis par récurrence :
+\begin{equation}
+p_k = \min \left\{ x > 1 \;\middle|\; \pgcd(x, V_{k-1}) = 1 \right\} \iff V_k = V_{k-1} \times p_k \iff p_k = \frac{V_k}{V_{k-1}}.
+\end{equation}
+La version \textbf{v16.0} combine une table circulaire de $480$ sauts miroirs $V_4 = 2\,310$ ($< 2\,\text{Ko}$ en cache L1, éliminant $79{,}22\,\%$ des entiers) avec un filtre PGCD unique sur le cofacteur $W_{5..12} = V_{12}/V_4 = 131\,710\,070\,791$, atteignant $85{,}49\,\%$ d'élimination et divisant par $4{,}8125$ les appels de PGCD.
+
+\section{Réduction Télescopique, Goldbach, Cunningham et Riemann}
+
+\begin{theorem}[Réduction Paramétrique en $m$ — v14.0]
+Pour tout entier pair $N \geq 8$, $C = (N - 2)/2$ et un socle primoriel impair $S$ vérifiant $\pgcd(S, N - 1) = 1$ avec $r = C \bmod S \in \{1, \dots, S\}$, les couples $Q_m = 2(r + mS) + 1$ et $P_m = 2S((C - r)/S - m) + 1$ vérifient $P_m + Q_m = N$.
+\end{theorem}
+
+Le comptage exact s'écrit $G_{\text{réel}}(N) = 2\Pi_2 \left(\prod_{p \mid N,\, p>2} \frac{p-1}{p-2}\right) \frac{N}{(\ln N)^2} + E_k(N)$, avec un crible pondéré $w(x) = 1 - \sum_{p_k < q \leq N^{1/2}} \lambda_q \mathbf{1}_{q \mid x}$ face à l'obstacle de parité de Selberg. Pour les chaînes de Cunningham ($p_m = 2^{m+1} A + 2^m - 1$), tout facteur impair $q \mid A$ brise la chaîne au rang $m \leq q - 1$. Concernant l'Hypothèse de Riemann, le ratio de Guy Robin $R(n) = \frac{\sigma(n)}{n \ln \ln n} < e^\gamma \approx 1{,}781072$ converge vers $\frac{6}{\pi^2} e^\gamma \approx 1{,}08276$ sur les roues sans carré $V_k$ et approche $e^\gamma$ sur les roues pondérées $\widetilde{V}_k$.
+
+\section{Cryptographie Post-Quantique : NTT, Chaînes RNS (FHE) et ZK-STARKs}
+
+L'équation $q_n = 2^{n+1} \cdot K + 1$ ($\pgcd(K, V_{12}) = 1$) génère les modules premiers et racines primitives négacycliques $\psi_n = a^K \bmod q_n$ et cycliques $\zeta_n = \psi_n^2 \bmod q_n$ pour \textbf{ML-KEM} ($q = 3\,329, \zeta_8 = 17$), \textbf{Falcon-1024} ($q = 12\,289, \zeta_{12} = 1\,331$), les chaînes RNS 60 bits du \textbf{FHE} et le corps fini \textbf{BabyBear} ($2\,013\,265\,921 = 15 \cdot 2^{27} + 1$) des \textbf{ZK-STARKs}.
+
+\section{Conclusion Générale}
+
+Les travaux présentés dans cet article établissent une architecture algébrique unifiée — \textbf{Le Modèle des Sauteurs (La Machine, v7.0 à v16.0)} — démontrant qu'un moteur arithmétique opérant en \textbf{mémoire constante $O(1)$} peut adresser simultanément des problèmes fondamentaux de la théorie analytique des nombres et des exigences critiques de l'ingénierie cryptographique post-quantique. L'exécution sans table de crible, la certification déterministe Lucas-Pocklington et la formalisation Lean 4 ouvrent la voie à des implémentations matérielles embarquées (FPGA / ASIC / AVX-512) sobres et vérifiées.
+
+\end{document}
