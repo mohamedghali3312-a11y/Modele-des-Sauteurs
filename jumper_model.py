@@ -69,10 +69,11 @@ def generer_temoin_pocklington(P: int, facteurs_certifies: list) -> int | None:
     if F * F <= P:
         return None
 
+    facteurs_uniques = set(facteurs_certifies)
     for a in range(2, 1000):
         if pow(a, P_m1, P) != 1:
             continue
-        if all(pgcd(pow(a, P_m1 // q, P) - 1, P) == 1 for q in facteurs_certifies):
+        if all(pgcd(pow(a, P_m1 // q, P) - 1, P) == 1 for q in facteurs_uniques):
             return a
     return None
 
@@ -158,7 +159,8 @@ def generer_module_ntt_rang_n(n: int, premiers: list) -> dict:
     for pk in premiers[1:]:
         q_n = dim * pk + 1
         if est_premier_probable(q_n):
-            temoin_a = generer_temoin_pocklington(q_n, list((2, pk)))
+            facteurs_qn_m1 = list((2,)) * n + list((pk,))
+            temoin_a = generer_temoin_pocklington(q_n, facteurs_qn_m1)
             if temoin_a is not None:
                 zeta_n = pow(temoin_a, pk, q_n)
                 if pow(zeta_n, dim // 2, q_n) == q_n - 1 and pow(zeta_n, dim, q_n) == 1:
@@ -182,19 +184,19 @@ if __name__ == "__main__":
     print("=" * 72)
     print(f"Primorielle V_12 : {V12}\n")
 
-    print(" Décomposition de Goldbach + Témoin de Pocklington (N = 48 512)")
-    cert_1 = isoler_et_certifier_goldbach(1000000, list((3, 5, 7, 11)), V12)
+    print("1. Décomposition de Goldbach + Témoin de Pocklington (N = 1 000 000)")
+    cert_1 = isoler_et_certifier_goldbach(1000000, list((3, 7, 11)), V12)
     if cert_1:
         print(f"  -> {cert_1['goldbach']['N']} = {cert_1['goldbach']['P']} + {cert_1['goldbach']['Q']} "
               f"(p = {cert_1['parametres']['quotient_p']}, Témoin a = {cert_1['certification_pocklington']['temoin_a']})")
 
-    print("\n Test à grande échelle (N = 10^100 + 2)")
+    print("\n2. Test à grande échelle (N = 10^100 + 2)")
     cert_100 = isoler_et_certifier_goldbach(10**100 + 2, premiers[1:13], V12)
     if cert_100:
         print(f"  -> Trouvé en {cert_100['meta']['temps_ms']} ms "
               f"({cert_100['meta']['candidats_testes']} candidats testés, Témoin a = {cert_100['certification_pocklington']['temoin_a']})")
 
-    print("\n Génération de modules premiers de Proth compatibles NTT (q_n = 2^n * p_k + 1)")
+    print("\n3. Génération de modules premiers de Proth compatibles NTT (q_n = 2^n * p_k + 1)")
     for rang in (8, 12, 32, 64):
         mod = generer_module_ntt_rang_n(rang, premiers)
         print(f"  -> n={mod['rang_n']:<2} | q_n = {mod['module_premier_qn']} | "
