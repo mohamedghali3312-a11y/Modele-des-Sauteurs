@@ -1,0 +1,11 @@
+name = "modele_des_sauteurs"
+version = "0.1.0"
+defaultTargets = ["proofs"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com"
+rev = "v4.12.0"
+
+[[lean_lib]]
+name = "proofs"
