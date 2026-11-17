@@ -21,15 +21,16 @@ def test_primalite_cas_limites():
 
 def test_roue_primorielle():
     V, premiers = generer_roue_primorielle(4)
-    assert premiers == [2, 3, 5, 7, 11]
+    assert premiers == list((2, 3, 5, 7, 11))
     assert V[-1] == 2310
 
 
 def test_pocklington_rigoureux():
-    assert generer_temoin_pocklington(6657, [2, 13]) is None
-    assert generer_temoin_pocklington(3329, [2, 13]) is None
+    assert generer_temoin_pocklington(6657, list((2, 13))) is None
+    assert generer_temoin_pocklington(3329, list((2, 13))) is None
 
-    temoin = generer_temoin_pocklington(3329, [2] * 8 +)
+    facteurs_3329 = list((2, 2, 2, 2, 2, 2, 2, 2, 13))
+    temoin = generer_temoin_pocklington(3329, facteurs_3329)
     assert temoin is not None
     assert pow(temoin, 3328, 3329) == 1
 
@@ -38,7 +39,7 @@ def test_goldbach_et_integrite():
     V, _ = generer_roue_primorielle(12)
     V12 = V[12]
     N = 48512
-    cert = isoler_et_certifier_goldbach(N, [3, 5, 7], V12)
+    cert = isoler_et_certifier_goldbach(N, list((3, 5, 7, 11)), V12)
 
     assert cert is not None
     P = int(cert["goldbach"]["P"])
