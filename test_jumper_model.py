@@ -1,3 +1,40 @@
+import pytest
+from jumper_model import (
+    est_premier_probable,
+    generer_roue_primorielle,
+    generer_temoin_pocklington,
+    isoler_et_certifier_goldbach,
+    generer_module_ntt_rang_n,
+)
+
+
+def test_primalite_cas_limites():
+    assert est_premier_probable(-5) is False
+    assert est_premier_probable(0) is False
+    assert est_premier_probable(1) is False
+    assert est_premier_probable(2) is True
+    assert est_premier_probable(3) is True
+    assert est_premier_probable(4) is False
+    assert est_premier_probable(1000000000039) is True
+    assert est_premier_probable(561) is False
+
+
+def test_roue_primorielle():
+    V, premiers = generer_roue_primorielle(4)
+    assert premiers == list((2, 3, 5, 7, 11))
+    assert V[-1] == 2310
+
+
+def test_pocklington_rigoureux():
+    assert generer_temoin_pocklington(6657, list((2, 13))) is None
+    assert generer_temoin_pocklington(3329, list((2, 13))) is None
+
+    facteurs_3329 = list((2, 2, 2, 2, 2, 2, 2, 2, 13))
+    temoin = generer_temoin_pocklington(3329, facteurs_3329)
+    assert temoin is not None
+    assert pow(temoin, 3328, 3329) == 1
+
+
 def test_goldbach_et_integrite():
     V, _ = generer_roue_primorielle(12)
     V12 = V[-1]
