@@ -38,7 +38,7 @@ def test_pocklington_rigoureux():
 def test_goldbach_et_integrite():
     V, _ = generer_roue_primorielle(12)
     V12 = V[-1]
-    N = 1000000
+    N = 1000002
     cert = isoler_et_certifier_goldbach(N, list((3, 7, 11)), V12)
 
     assert cert is not None
