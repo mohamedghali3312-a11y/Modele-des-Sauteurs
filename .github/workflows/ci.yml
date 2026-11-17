@@ -41,15 +41,5 @@ jobs:
 
       - name: Compilation et vérification Lean 4
         uses: leanprover/lean-action@v1
-  lean-proofs:
-    name: Vérification Formelle Lean 4
-    runs-on: ubuntu-latest
-    steps:
-      - name: Récupération du code
-        uses: actions/checkout@v4
-
-      - name: Compilation et vérification Lean 4
-        uses: leanprover/lean-action@v1
         with:
           lake-update: true
-with: lake-update: true) :
