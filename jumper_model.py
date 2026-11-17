@@ -3,12 +3,6 @@
 """
 Le Modèle des Sauteurs — Moteur d'arithmétique primorielle
 Auteur : Mohamed Ghali (2026)
-
-Fonctionnalités :
-1. Génération de roues primorielles V_k en mémoire auxiliaire constante O(1)
-2. Recherche paramétrique de décompositions de Goldbach (N = P + Q)
-3. Certification de primalité via le critère de Pocklington (condition F > sqrt(P))
-4. Génération de nombres premiers de Proth compatibles NTT (q_n = 2^n * p_k + 1)
 """
 
 import json
@@ -29,12 +23,6 @@ def pgcd(a: int, b: int) -> int:
 
 
 def est_premier_probable(n: int) -> bool:
-    """
-    Test de primalité :
-    - Utilise Baillie-PSW (BPSW) via gmpy2 si disponible.
-    - Sinon, utilise Miller-Rabin déterministe jusqu'à 3.18e23 (12 bases)
-      et probabiliste au-delà.
-    """
     if HAS_GMPY2:
         return bool(gmpy2.is_prime(n))
     if n < 2:
@@ -65,8 +53,8 @@ def est_premier_probable(n: int) -> bool:
 
 
 def generer_roue_primorielle(rang_max: int = 12):
-    V = [2]
-    premiers = [2]
+    V = list((2,))
+    premiers = list((2,))
     pk = 2
     for _ in range(rang_max):
         pk = next(x for x in range(pk + 1, V[-1] + 2) if pgcd(x, V[-1]) == 1)
@@ -76,14 +64,10 @@ def generer_roue_primorielle(rang_max: int = 12):
 
 
 def generer_temoin_pocklington(P: int, facteurs_certifies: list) -> int | None:
-    """
-    Vérifie le critère de Pocklington :
-    Exige que le produit F des facteurs premiers de P-1 vérifie F > sqrt(P).
-    """
     P_m1 = P - 1
     F = math.prod(facteurs_certifies)
     if F * F <= P:
-        return None  # Condition théorique F > sqrt(P) non satisfaite
+        return None
 
     for a in range(2, 1000):
         if pow(a, P_m1, P) != 1:
@@ -123,7 +107,7 @@ def isoler_et_certifier_goldbach(
                 tests_primalite += 1
                 if est_premier_probable(Q) and est_premier_probable(p) and est_premier_probable(P):
                     duree_ms = round((time.perf_counter() - t0) * 1000, 3)
-                    facteurs_P_m1 = sorted(list(set([2] + socle_facteurs + [p])))
+                    facteurs_P_m1 = sorted(list(set(list((2,)) + socle_facteurs + list((p,)))))
                     temoin_a = generer_temoin_pocklington(P, facteurs_P_m1)
 
                     certificat = {
@@ -151,7 +135,7 @@ def isoler_et_certifier_goldbach(
                         },
                         "certification_pocklington": {
                             "temoin_a": temoin_a,
-                            "facteurs_P_moins_1": [str(q) for q in facteurs_P_m1],
+                            "facteurs_P_moins_1": list(str(q) for q in facteurs_P_m1),
                             "note": "Certificat strict si p est prouvé premier (conditionnel à BPSW sinon).",
                         },
                     }
@@ -170,15 +154,11 @@ def isoler_et_certifier_goldbach(
 
 
 def generer_module_ntt_rang_n(n: int, premiers: list) -> dict:
-    """
-    Génère un nombre premier de Proth q_n = 2^n * p_k + 1 et une racine primitive
-    2^n-ième de l'unité (zeta_n) utilisable pour les transformations NTT.
-    """
     dim = 1 << n
     for pk in premiers[1:]:
         q_n = dim * pk + 1
         if est_premier_probable(q_n):
-            temoin_a = generer_temoin_pocklington(q_n, [2, pk])
+            temoin_a = generer_temoin_pocklington(q_n, list((2, pk)))
             if temoin_a is not None:
                 zeta_n = pow(temoin_a, pk, q_n)
                 if pow(zeta_n, dim // 2, q_n) == q_n - 1 and pow(zeta_n, dim, q_n) == 1:
@@ -202,19 +182,19 @@ if __name__ == "__main__":
     print("=" * 72)
     print(f"Primorielle V_12 : {V12}\n")
 
-    print("[1] Décomposition de Goldbach + Témoin de Pocklington (N = 48 512)")
-    cert_1 = isoler_et_certifier_goldbach(48512, [3, 5, 7, 11], V12)
+    print(" Décomposition de Goldbach + Témoin de Pocklington (N = 48 512)")
+    cert_1 = isoler_et_certifier_goldbach(48512, list((3, 5, 7, 11)), V12)
     if cert_1:
         print(f"  -> {cert_1['goldbach']['N']} = {cert_1['goldbach']['P']} + {cert_1['goldbach']['Q']} "
               f"(p = {cert_1['parametres']['quotient_p']}, Témoin a = {cert_1['certification_pocklington']['temoin_a']})")
 
-    print("\n[2] Test à grande échelle (N = 10^100 + 2)")
+    print("\n Test à grande échelle (N = 10^100 + 2)")
     cert_100 = isoler_et_certifier_goldbach(10**100 + 2, premiers[1:13], V12)
     if cert_100:
         print(f"  -> Trouvé en {cert_100['meta']['temps_ms']} ms "
               f"({cert_100['meta']['candidats_testes']} candidats testés, Témoin a = {cert_100['certification_pocklington']['temoin_a']})")
 
-    print("\n[3] Génération de modules premiers de Proth compatibles NTT (q_n = 2^n * p_k + 1)")
+    print("\n Génération de modules premiers de Proth compatibles NTT (q_n = 2^n * p_k + 1)")
     for rang in (8, 12, 32, 64):
         mod = generer_module_ntt_rang_n(rang, premiers)
         print(f"  -> n={mod['rang_n']:<2} | q_n = {mod['module_premier_qn']} | "
