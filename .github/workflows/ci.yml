@@ -32,7 +32,7 @@ jobs:
       - name: Exécution du moteur principal
         run: python jumper_model.py
 
-  lean-proofs:
+    lean-proofs:
     name: Vérification Formelle Lean 4
     runs-on: ubuntu-latest
     steps:
@@ -42,4 +42,5 @@ jobs:
       - name: Compilation et vérification Lean 4
         uses: leanprover/lean-action@v1
         with:
-          lake-update: true
+          auto-config: true
+
