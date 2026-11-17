@@ -185,7 +185,7 @@ if __name__ == "__main__":
     print(f"Primorielle V_12 : {V12}\n")
 
     print("1. Décomposition de Goldbach + Témoin de Pocklington (N = 1 000 000)")
-    cert_1 = isoler_et_certifier_goldbach(1000000, list((3, 7, 11)), V12)
+    cert_1 = isoler_et_certifier_goldbach(1000002, list((3, 7, 11)), V12)
     if cert_1:
         print(f"  -> {cert_1['goldbach']['N']} = {cert_1['goldbach']['P']} + {cert_1['goldbach']['Q']} "
               f"(p = {cert_1['parametres']['quotient_p']}, Témoin a = {cert_1['certification_pocklington']['temoin_a']})")
