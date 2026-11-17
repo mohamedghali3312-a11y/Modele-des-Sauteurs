@@ -1,4 +1,4 @@
-name: Vérification Mathématique & Tests CI
+name: Verification Mathematique et Tests CI
 
 on:
   push:
@@ -8,39 +8,38 @@ on:
 
 jobs:
   python-tests:
-    name: Tests Unitaires Python (pytest)
+    name: Tests Unitaires Python
     runs-on: ubuntu-latest
     steps:
-      - name: Récupération du code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configuration de Python 3.11
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Installation des dépendances système et Python
+      - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libgmp-dev libmpfr-dev libmpc-dev
           python -m pip install --upgrade pip
           pip install pytest gmpy2
 
-      - name: Exécution des tests unitaires
+      - name: Run pytest
         run: pytest -v
 
-      - name: Exécution du moteur principal
+      - name: Run jumper_model
         run: python jumper_model.py
 
-    lean-proofs:
-    name: Vérification Formelle Lean 4
+  lean-proofs:
+    name: Verification Formelle Lean 4
     runs-on: ubuntu-latest
     steps:
-      - name: Récupération du code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Compilation et vérification Lean 4
+      - name: Verify Lean 4 proofs
         uses: leanprover/lean-action@v1
         with:
           auto-config: true
-
