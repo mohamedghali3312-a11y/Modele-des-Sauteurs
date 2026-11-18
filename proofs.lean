@@ -1,18 +1,15 @@
 import Mathlib.Data.Nat.Prime.Basic
 import Mathlib.Tactic.Ring
 
-theorem goldbach_parametric_identity (S K r m : Nat) :
-    let C := K * S + r
-    let N := 2 * C + 2
-    let Q_m := 2 * (r + m * S) + 1
-    let P_m := 2 * S * (K - m) + 1
-    m <= K -> P_m + Q_m = N := by
-  intro C N Q_m P_m h_le
-  dsimp only [C, N, Q_m, P_m]
+theorem goldbach_parametric_identity (S K r m : Nat) (h_le : m <= K) :
+    (2 * S * (K - m) + 1) + (2 * (r + m * S) + 1) = 2 * (K * S + r) + 2 := by
+  have h1 : (K - m) + m = K := Nat.sub_add_cancel h_le
+  have h2 : 2 * S * (K - m) + 2 * (m * S) = 2 * S * ((K - m) + m) := by ring
+  rw [h1] at h2
   omega
 
 theorem cunningham_link_formula (A m : Nat) :
     2 * (2 ^ (m + 1) * A + (2 ^ m - 1)) + 1 = 2 ^ (m + 2) * A + (2 ^ (m + 1) - 1) := by
   have h1 : 1 <= 2 ^ m := Nat.one_le_two_pow
-  have h4 : 2 ^ (m + 2) * A = 2 * (2 ^ (m + 1) * A) := by ring
+  have h2 : 2 ^ (m + 2) * A = 2 * (2 ^ (m + 1) * A) := by ring
   omega
