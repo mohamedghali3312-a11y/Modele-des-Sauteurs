@@ -4,7 +4,7 @@ defaultTargets = ["proofs"]
 
 [[require]]
 name = "mathlib"
-git = "https://github.com"
+scope = "leanprover-community"
 rev = "v4.12.0"
 
 [[lean_lib]]
