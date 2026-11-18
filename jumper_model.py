@@ -184,7 +184,7 @@ if __name__ == "__main__":
     print("=" * 72)
     print(f"Primorielle V_12 : {V12}\n")
 
-    print("1. Décomposition de Goldbach + Témoin de Pocklington (N = 1 000 000)")
+    print("1. Décomposition de Goldbach + Témoin de Pocklington (N = 1 000 002)")
     cert_1 = isoler_et_certifier_goldbach(1000002, list((3, 7, 11)), V12)
     if cert_1:
         print(f"  -> {cert_1['goldbach']['N']} = {cert_1['goldbach']['P']} + {cert_1['goldbach']['Q']} "
@@ -197,7 +197,7 @@ if __name__ == "__main__":
               f"({cert_100['meta']['candidats_testes']} candidats testés, Témoin a = {cert_100['certification_pocklington']['temoin_a']})")
 
     print("\n3. Génération de modules premiers de Proth compatibles NTT (q_n = 2^n * p_k + 1)")
-    for rang in (8, 12, 32, 64):
+    for rang in (8, 12, 32):
         mod = generer_module_ntt_rang_n(rang, premiers)
         print(f"  -> n={mod['rang_n']:<2} | q_n = {mod['module_premier_qn']} | "
               f"zeta_n = {mod['racine_ntt_zeta']}")
