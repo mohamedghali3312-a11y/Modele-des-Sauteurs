@@ -14,7 +14,5 @@ theorem goldbach_parametric_identity (S K r m : Nat) :
 theorem cunningham_link_formula (A m : Nat) :
     2 * (2 ^ (m + 1) * A + (2 ^ m - 1)) + 1 = 2 ^ (m + 2) * A + (2 ^ (m + 1) - 1) := by
   have h1 : 1 <= 2 ^ m := Nat.one_le_two_pow
-  have h2 : 1 <= 2 ^ (m + 1) := Nat.one_le_two_pow
-  have h3 : 2 ^ (m + 1) = 2 * 2 ^ m := by ring
   have h4 : 2 ^ (m + 2) * A = 2 * (2 ^ (m + 1) * A) := by ring
   omega
